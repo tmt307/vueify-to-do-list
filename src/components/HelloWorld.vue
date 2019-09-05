@@ -1,58 +1,137 @@
 <template>
-  <div class="hello">
-    <h1>{{ msg }}</h1>
-    <p>
-      For a guide and recipes on how to configure / customize this project,<br>
-      check out the
-      <a href="https://cli.vuejs.org" target="_blank" rel="noopener">vue-cli documentation</a>.
-    </p>
-    <h3>Installed CLI Plugins</h3>
-    <ul>
-      <li><a href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-babel" target="_blank" rel="noopener">babel</a></li>
-      <li><a href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-eslint" target="_blank" rel="noopener">eslint</a></li>
-    </ul>
-    <h3>Essential Links</h3>
-    <ul>
-      <li><a href="https://vuejs.org" target="_blank" rel="noopener">Core Docs</a></li>
-      <li><a href="https://forum.vuejs.org" target="_blank" rel="noopener">Forum</a></li>
-      <li><a href="https://chat.vuejs.org" target="_blank" rel="noopener">Community Chat</a></li>
-      <li><a href="https://twitter.com/vuejs" target="_blank" rel="noopener">Twitter</a></li>
-      <li><a href="https://news.vuejs.org" target="_blank" rel="noopener">News</a></li>
-    </ul>
-    <h3>Ecosystem</h3>
-    <ul>
-      <li><a href="https://router.vuejs.org" target="_blank" rel="noopener">vue-router</a></li>
-      <li><a href="https://vuex.vuejs.org" target="_blank" rel="noopener">vuex</a></li>
-      <li><a href="https://github.com/vuejs/vue-devtools#vue-devtools" target="_blank" rel="noopener">vue-devtools</a></li>
-      <li><a href="https://vue-loader.vuejs.org" target="_blank" rel="noopener">vue-loader</a></li>
-      <li><a href="https://github.com/vuejs/awesome-vue" target="_blank" rel="noopener">awesome-vue</a></li>
-    </ul>
-  </div>
+    <v-row>
+        <v-col cols="12" sm="6" offset-sm="3">
+            <v-card>
+                <v-toolbar color="blue darken-4">
+                    <v-toolbar-title class="white--text">  {{title}}</v-toolbar-title>
+                    <div class="flex-grow-1"></div>
+
+                    <template v-slot:extension>
+                        <v-btn fab
+                               color="blue darken-1"
+                               bottom
+                               left
+                               absolute
+                               @click="dialog = !dialog">
+                            <v-icon>mdi-plus</v-icon>
+                        </v-btn>
+                    </template>
+                </v-toolbar>
+
+                <v-col cols="12" >
+                    <v-list>
+                        <v-alert v-model="alertadd" color="green" dismissible>
+                            The task has been added successfully
+                        </v-alert>
+
+                        <v-alert v-model="alertdelete" color="red" dismissible>
+                            The task has been deleted successfully
+                        </v-alert>
+
+                        <v-list-item v-for="todo in todolist">
+
+                            <v-list-item-content>
+                                <v-list-item-title :class="{ done: todo.done}"> {{todo.title}} </v-list-item-title>
+                            </v-list-item-content>
+
+                            <v-list-item-action>
+                                <v-btn class=" mr-4" color=" green accent-4" dark>
+                                    <v-checkbox class="mr-2" type="checkbox" v-model="todo.done"></v-checkbox>
+                                    Completed
+                                </v-btn>
+                            </v-list-item-action>
+
+                            <v-list-item-action>
+                                <v-btn @click="dialog2 = !dialog" color="blue" dark>
+                                    <v-icon>mdi-pencil </v-icon> <span class="m-2">Edit</span>
+                                </v-btn>
+                            </v-list-item-action>
+
+                            <v-list-item-action @click="deletetodo(todo)" >
+                                <v-btn  @click="alertdelete = true" color="red accent-4" dark>
+                                    <v-icon dark>mdi-delete-circle </v-icon> <span class="m-2">Delete</span>
+                                </v-btn>
+                            </v-list-item-action>
+                        </v-list-item>
+
+                    </v-list>
+                </v-col>
+
+                <v-dialog v-model="dialog" max-width="500px">
+                    <v-card>
+                        <v-card-actions>
+                            <div class="flex-grow-1">
+                                <form @submit.prevent="todoformaddmethod">
+                                    <v-text-field required v-model="newtodo" type="text" name="newtodo" value="2" id="newtodo" label="Task Name"></v-text-field>
+                                    <v-btn color="primary" name="button" type="submit" @click="alertadd = true">add</v-btn>
+                                    <v-btn color="red" @click="dialog = false">  Close</v-btn>
+                                </form>
+                            </div>
+                        </v-card-actions>
+                    </v-card>
+                </v-dialog>
+
+                <v-dialog v-model="dialog2" max-width="500px">
+                    <v-card>
+                        <v-card-actions>
+                            <div class="flex-grow-1">
+                                <form @submit.prevent="todoformaddmethod">
+
+                                    <v-text-field required v-model="model" type="text" name="newtodo" value="test" ></v-text-field>
+
+                                    <v-btn color="green" name="button" type="submit">Edit</v-btn>
+
+                                    <v-btn color="red" @click="dialog = false">  Close</v-btn>
+                                </form>
+                            </div>
+                        </v-card-actions>
+                    </v-card>
+                </v-dialog>
+            </v-card>
+        </v-col>
+    </v-row>
 </template>
 
-<script>
-export default {
-  name: 'HelloWorld',
-  props: {
-    msg: String
-  }
-}
-</script>
+<style>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-h3 {
-  margin: 40px 0 0;
-}
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
-}
+ .done {
+        text-decoration: line-through
+    }
+
 </style>
+
+<script>
+
+
+    export default {
+
+        data() {
+            return {
+                model: "{{todo.title}}",
+                dialog: false,
+                dialog2: false,
+                alertadd: false,
+                alertdelete: false,
+                title: 'To do list',
+                newtodo: '',
+                todolist: []
+
+            }
+        },
+        methods: {
+            todoformaddmethod() {
+                this.todolist.push({
+                    title: this.newtodo,
+                    done: false,
+                });
+                this.newtodo = '';
+            },
+            deletetodo(todo) {
+                const todoIndex = this.todolist.indexOf(todo);
+                this.todolist.splice(todoIndex, 1);
+
+            }
+        }
+    }
+
+</script>

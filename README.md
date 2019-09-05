@@ -1,4 +1,4 @@
-# Simple vueify to do list
+# my-app
 
 ## Project setup
 ```
