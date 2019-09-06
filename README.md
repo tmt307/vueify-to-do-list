@@ -1,4 +1,4 @@
-# my-app
+# Vuetify To do list 
 
 ## Project setup
 ```
