@@ -1,5 +1,7 @@
 # Vuetify To do list 
 
+Simple Front End to do list using Vue Js Framework Vuetify
+
 ## Project setup
 ```
 npm install
