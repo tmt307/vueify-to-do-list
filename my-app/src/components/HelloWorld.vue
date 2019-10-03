@@ -41,96 +41,96 @@
                                 </v-btn>
                             </v-list-item-action>
 
-                            <v-list-item-action>
-                                <v-btn @click="dialog2 = !dialog" color="cyan accent-4" dark>
-                                    <v-icon>mdi-pencil </v-icon> <span class="m-2">Edit</span>
-                                </v-btn>
-                            </v-list-item-action>
+                            <!--      <v-list-item-action>
+                                    <v-btn @click="dialog2 = !dialog" color="cyan accent-4" dark>
+                                        <v-icon>mdi-pencil </v-icon> <span class="m-2">Edit</span>
+                                    </v-btn>
+                                </v-list-item-action> !-->
 
-                            <v-list-item-action @click="deletetodo(todo)">
-                                <v-btn @click="alertdelete = true" color="red accent-4" dark>
-                                    <v-icon dark>mdi-delete-circle </v-icon> <span class="m-2">Delete</span>
-                                </v-btn>
-                            </v-list-item-action>
-                        </v-list-item>
+                                <v-list-item-action @click="deletetodo(todo)">
+                                    <v-btn @click="alertdelete = true" color="red accent-4" dark>
+                                        <v-icon dark>mdi-delete-circle </v-icon> <span class="m-2">Delete</span>
+                                    </v-btn>
+                                </v-list-item-action>
+                            </v-list-item>
 
-                    </v-list>
-                </v-col>
+                        </v-list>
+                    </v-col>
 
-                <v-dialog v-model="dialog" max-width="500px">
-                    <v-card>
-                        <v-card-actions>
-                            <div class="flex-grow-1">
-                                <form @submit.prevent="todoformaddmethod">
-                                    <v-text-field required v-model="newtodo" type="text" name="newtodo" value="2" id="newtodo" label="Task Name"></v-text-field>
-                                    <v-btn color="primary" name="button" type="submit" @click="alertadd = true" class="white--text">add</v-btn>
-                                    <v-btn color="red" @click="dialog = false" class="white--text">  Close</v-btn>
-                                </form>
-                            </div>
-                        </v-card-actions>
-                    </v-card>
-                </v-dialog>
+                    <v-dialog v-model="dialog" max-width="500px">
+                        <v-card>
+                            <v-card-actions>
+                                <div class="flex-grow-1">
+                                    <form @submit.prevent="todoformaddmethod">
+                                        <v-text-field required v-model="newtodo" type="text" name="newtodo" value="2" id="newtodo" label="Task Name"></v-text-field>
+                                        <v-btn color="primary" name="button" type="submit" @click="alertadd = true" class="white--text">add</v-btn>
+                                        <v-btn color="red" @click="dialog = false" class="white--text">  Close</v-btn>
+                                    </form>
+                                </div>
+                            </v-card-actions>
+                        </v-card>
+                    </v-dialog>
 
-                <v-dialog v-model="dialog2" max-width="500px">
-                    <v-card>
-                        <v-card-actions>
-                            <div class="flex-grow-1">
-                                <form @submit.prevent="todoformaddmethod">
+                    <v-dialog v-model="dialog2" max-width="500px">
+                        <v-card>
+                            <v-card-actions>
+                                <div class="flex-grow-1">
+                                    <form @submit.prevent="todoformaddmethod">
 
-                                    <v-text-field required v-model="model" type="text" name="newtodo" value="test"></v-text-field>
+                                        <v-text-field required v-model="model" type="text" name="newtodo" value="test"></v-text-field>
 
-                                    <v-btn color="green" name="button" type="submit" class="white--text">Edit</v-btn>
+                                        <v-btn color="green" name="button" type="submit" class="white--text">Edit</v-btn>
 
-                                    <v-btn color="red" @click="dialog = false" class="white--text">  Close</v-btn>
-                                </form>
-                            </div>
-                        </v-card-actions>
-                    </v-card>
-                </v-dialog>
-            </v-card>
-        </v-col>
-    </v-row>
-</template>
+                                        <v-btn color="red" @click="dialog = false" class="white--text">  Close</v-btn>
+                                    </form>
+                                </div>
+                            </v-card-actions>
+                        </v-card>
+                    </v-dialog>
+                </v-card>
+            </v-col>
+        </v-row>
+    </template>
 
-<style>
+    <style>
 
-    .done {
-        text-decoration: line-through
-    }
-</style>
+        .done {
+            text-decoration: line-through
+        }
+    </style>
 
-<script>
+    <script>
 
 
-    export default {
+        export default {
 
-        data() {
-            return {
-                model: "{{todo.title}}",
-                dialog: false,
-                dialog2: false,
-                alertadd: false,
-                alertdelete: false,
-                title: 'To do list',
-                newtodo: '',
-                todolist: []
+            data() {
+                return {
+                    model: "{{todo.title}}",
+                    dialog: false,
+                    dialog2: false,
+                    alertadd: false,
+                    alertdelete: false,
+                    title: 'To do list',
+                    newtodo: '',
+                    todolist: []
 
-            }
-        },
-        methods: {
-            todoformaddmethod() {
-                this.todolist.push({
-                    title: this.newtodo,
-                    done: false,
-                });
-                this.newtodo = '';
+                }
             },
-            deletetodo(todo) {
-                const todoIndex = this.todolist.indexOf(todo);
-                this.todolist.splice(todoIndex, 1);
+            methods: {
+                todoformaddmethod() {
+                    this.todolist.push({
+                        title: this.newtodo,
+                        done: false,
+                    });
+                    this.newtodo = '';
+                },
+                deletetodo(todo) {
+                    const todoIndex = this.todolist.indexOf(todo);
+                    this.todolist.splice(todoIndex, 1);
 
+                }
             }
         }
-    }
 
-</script>
+    </script>
